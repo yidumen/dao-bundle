@@ -5,7 +5,6 @@ import com.yidumen.dao.constant.VideoStatus;
 import com.yidumen.dao.entity.Tag;
 import com.yidumen.dao.entity.Video;
 import com.yidumen.dao.entity.VideoInfo;
-import com.yidumen.dao.framework.HibernateUtil;
 import com.yidumen.dao.model.VideoQueryModel;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,6 +13,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
+import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -25,13 +25,15 @@ import org.hibernate.criterion.Restrictions;
 @SuppressWarnings("unchecked")
 public class VideoHibernateImpl extends AbstractHibernateImpl<Video> implements VideoDAO, Serializable {
 
-    public VideoHibernateImpl() {
+    public VideoHibernateImpl(SessionFactory sessionFactory) {
         super(Video.class);
+        this.sessionFactory = sessionFactory;
     }
+
 
     @Override
     public List<Video> find(final VideoStatus videoStatus) {
-        final List<Video> result = HibernateUtil.getSessionFactory().getCurrentSession().getNamedQuery("video.findByStatus")
+        final List<Video> result = this.sessionFactory.getCurrentSession().getNamedQuery("video.findByStatus")
                 .setParameter(0, videoStatus)
                 .list();
         return result;
@@ -39,26 +41,26 @@ public class VideoHibernateImpl extends AbstractHibernateImpl<Video> implements 
 
     @Override
     public List<Video> getNewVideos(final int limit) {
-        final List<Video> result = HibernateUtil.getSessionFactory().getCurrentSession().getNamedQuery("video.findNew")
+        final List<Video> result = this.sessionFactory.getCurrentSession().getNamedQuery("video.findNew")
                 .setMaxResults(limit).list();
         return result;
     }
 
     @Override
     public List<Video> findRecommend() {
-        final List<Video> result = HibernateUtil.getSessionFactory().getCurrentSession().getNamedQuery("video.findRecommend").list();
+        final List<Video> result = this.sessionFactory.getCurrentSession().getNamedQuery("video.findRecommend").list();
         return result;
     }
 
     @Override
     public List dateGroup() {
-        final List result = HibernateUtil.getSessionFactory().getCurrentSession().getNamedQuery("video.dateGroup").list();
+        final List result = this.sessionFactory.getCurrentSession().getNamedQuery("video.dateGroup").list();
         return result;
     }
 
     @Override
     public List<Video> find(final Date startTime, final Date endTime) {
-        final List<Video> result = HibernateUtil.getSessionFactory().getCurrentSession().getNamedQuery("video.findBetween")
+        final List<Video> result = this.sessionFactory.getCurrentSession().getNamedQuery("video.findBetween")
                 .setDate(0, new java.sql.Date(startTime.getTime()))
                 .setDate(1, new java.sql.Date(endTime.getTime()))
                 .list();
@@ -67,7 +69,7 @@ public class VideoHibernateImpl extends AbstractHibernateImpl<Video> implements 
 
     @Override
     public Video find(final String file) {
-        final Video result = (Video) HibernateUtil.getSessionFactory().getCurrentSession().getNamedQuery("video.findByFile")
+        final Video result = (Video) this.sessionFactory.getCurrentSession().getNamedQuery("video.findByFile")
                 .setString("file", file)
                 .uniqueResult();
         return result;
@@ -75,7 +77,7 @@ public class VideoHibernateImpl extends AbstractHibernateImpl<Video> implements 
 
     @Override
     public List<Video> find(final Date shootTime, final String file) {
-        final List<Video> result = HibernateUtil.getSessionFactory().getCurrentSession().getNamedQuery("video.getAutoPlayList")
+        final List<Video> result = this.sessionFactory.getCurrentSession().getNamedQuery("video.getAutoPlayList")
                 .setDate(0, shootTime)
                 .setString(1, file)
                 .list();
@@ -84,7 +86,7 @@ public class VideoHibernateImpl extends AbstractHibernateImpl<Video> implements 
 
     @Override
     public List<Video> find(final Date shootTime, final String file, final int limit) {
-        final List<Video> result = HibernateUtil.getSessionFactory().getCurrentSession().getNamedQuery("video.getAutoPlayList2")
+        final List<Video> result = this.sessionFactory.getCurrentSession().getNamedQuery("video.getAutoPlayList2")
                 .setDate(0, shootTime)
                 .setString(1, file)
                 .setMaxResults(limit)
@@ -94,7 +96,7 @@ public class VideoHibernateImpl extends AbstractHibernateImpl<Video> implements 
 
     @Override
     public List<Video> find(final Date shootTime, final int limit) {
-        final List<Video> result = HibernateUtil.getSessionFactory().getCurrentSession().getNamedQuery("video.getAutoPlayList3")
+        final List<Video> result = this.sessionFactory.getCurrentSession().getNamedQuery("video.getAutoPlayList3")
                 .setDate(0, shootTime)
                 .setMaxResults(limit)
                 .list();
@@ -103,7 +105,7 @@ public class VideoHibernateImpl extends AbstractHibernateImpl<Video> implements 
 
     @Override
     public List<Video> find(VideoQueryModel model) {
-        final Criteria criteria = HibernateUtil.getSessionFactory().getCurrentSession().createCriteria(Video.class);
+        final Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Video.class);
         if (model.getSort2() > 0) {
             criteria.add(Restrictions.between("sort", model.getSort(), model.getSort2()));
         }

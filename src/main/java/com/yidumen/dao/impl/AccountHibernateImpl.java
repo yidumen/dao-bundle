@@ -2,8 +2,8 @@ package com.yidumen.dao.impl;
 
 import com.yidumen.dao.AccountDAO;
 import com.yidumen.dao.entity.Account;
-import com.yidumen.dao.framework.HibernateUtil;
 import java.io.Serializable;
+import org.hibernate.SessionFactory;
 
 /**
  *
@@ -11,13 +11,15 @@ import java.io.Serializable;
  */
 public class AccountHibernateImpl extends AbstractHibernateImpl<Account> implements AccountDAO,Serializable {
 
-    public AccountHibernateImpl() {
+    public AccountHibernateImpl(SessionFactory sessionFactory) {
         super(Account.class);
+        this.sessionFactory = sessionFactory;
     }
+
 
     @Override
     public Account find(String emailOrPhone) {
-        final Account result = (Account) HibernateUtil.getSessionFactory().getCurrentSession().getNamedQuery("Account.findByName")
+        final Account result = (Account) this.sessionFactory.getCurrentSession().getNamedQuery("Account.findByName")
                 .setString("username", emailOrPhone)
                 .uniqueResult();
         return result;

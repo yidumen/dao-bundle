@@ -1,8 +1,8 @@
 package com.yidumen.dao.impl;
 
-import com.yidumen.dao.framework.HibernateUtil;
 import java.util.List;
 import org.hibernate.HibernateException;
+import org.hibernate.SessionFactory;
 
 /**
  *
@@ -12,6 +12,8 @@ import org.hibernate.HibernateException;
 @SuppressWarnings("unchecked")
 public abstract class AbstractHibernateImpl<T> {
 
+    protected SessionFactory sessionFactory;
+    
     private final Class<T> entityClass;
 
     public AbstractHibernateImpl(Class<T> entityClass) {
@@ -19,24 +21,24 @@ public abstract class AbstractHibernateImpl<T> {
     }
 
     public void create(T entity) {
-        HibernateUtil.getSessionFactory().getCurrentSession().persist(entity);
+        this.sessionFactory.getCurrentSession().persist(entity);
     }
 
     public void edit(T entity) {
-        HibernateUtil.getSessionFactory().getCurrentSession().saveOrUpdate(entity);
+        this.sessionFactory.getCurrentSession().saveOrUpdate(entity);
     }
 
     public void remove(T entity) {
-        HibernateUtil.getSessionFactory().getCurrentSession().delete(entity);
+        this.sessionFactory.getCurrentSession().delete(entity);
     }
 
     public T find(Long id) {
-        final T result = (T) HibernateUtil.getSessionFactory().getCurrentSession().load(entityClass, id);
+        final T result = (T) this.sessionFactory.getCurrentSession().load(entityClass, id);
         return result;
     }
 
     public List<T> findAll() {
-        final List<T> result = HibernateUtil.getSessionFactory().getCurrentSession().createCriteria(entityClass).list();
+        final List<T> result = this.sessionFactory.getCurrentSession().createCriteria(entityClass).list();
         return result;
     }
 
@@ -49,4 +51,5 @@ public abstract class AbstractHibernateImpl<T> {
     protected void initalizeLazy(T entity) {
         // Do nothing because implement by child.
     };
+
 }
