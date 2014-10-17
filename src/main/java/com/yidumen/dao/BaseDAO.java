@@ -19,4 +19,5 @@ public interface BaseDAO<T> {
 
     void remove(T entity);
     
+    List<T> findRange(int first, int size);
 }

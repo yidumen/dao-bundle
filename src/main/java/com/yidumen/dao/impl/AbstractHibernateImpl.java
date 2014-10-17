@@ -1,6 +1,7 @@
 package com.yidumen.dao.impl;
 
 import java.util.List;
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 
@@ -40,6 +41,13 @@ public abstract class AbstractHibernateImpl<T> {
     public List<T> findAll() {
         final List<T> result = this.sessionFactory.getCurrentSession().createCriteria(entityClass).list();
         return result;
+    }
+    
+    public List<T> findRange(int first, int size) {
+        return this.sessionFactory.getCurrentSession().createCriteria(entityClass)
+                .setMaxResults(size)
+                .setFirstResult(first)
+                .list();
     }
 
     protected void initalizeListLazy(final List<T> list) throws HibernateException {

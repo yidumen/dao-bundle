@@ -1,5 +1,6 @@
 package com.yidumen.dao.entity;
 
+import com.yidumen.dao.constant.AccountGroup;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
@@ -7,6 +8,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -91,6 +94,8 @@ public class Account implements Serializable {
     @Basic(fetch = FetchType.LAZY)
     @OneToOne(cascade = CascadeType.ALL)
     private VerifyInfo verifyInfo;
+    @Enumerated(EnumType.ORDINAL)
+    private AccountGroup group;
 
     public Account() {
         this.status = false;
@@ -273,4 +278,13 @@ public class Account implements Serializable {
     public void setVerifyInfo(VerifyInfo verifyInfo) {
         this.verifyInfo = verifyInfo;
     }
+
+    public AccountGroup getGroup() {
+        return group;
+    }
+
+    public void setGroup(AccountGroup group) {
+        this.group = group;
+    }
+    
 }
