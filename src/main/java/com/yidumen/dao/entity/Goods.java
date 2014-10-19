@@ -4,6 +4,7 @@ import com.yidumen.dao.constant.GoodsStatus;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -31,9 +32,11 @@ public class Goods implements Serializable {
     private String address;
     @Basic(optional = false)
     private Date createdate;
-    @Basic(optional = false)
-    @Enumerated(EnumType.ORDINAL)
     private GoodsStatus status;
+    @Column(length = 10)
+    private String postCode;
+    @Column(length = 50)
+    private String postNumber;
 
     public Integer getId() {
         return id;
@@ -81,6 +84,22 @@ public class Goods implements Serializable {
 
     public void setStatus(GoodsStatus status) {
         this.status = status;
+    }
+
+    public String getPostCode() {
+        return postCode;
+    }
+
+    public void setPostCode(String postCode) {
+        this.postCode = postCode;
+    }
+
+    public String getPostNumber() {
+        return postNumber;
+    }
+
+    public void setPostNumber(String postNumber) {
+        this.postNumber = postNumber;
     }
 
 }

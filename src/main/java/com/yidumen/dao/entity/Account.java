@@ -95,7 +95,7 @@ public class Account implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     private VerifyInfo verifyInfo;
     @Enumerated(EnumType.ORDINAL)
-    private AccountGroup group;
+    private AccountGroup userGroup;
 
     public Account() {
         this.status = false;
@@ -279,12 +279,12 @@ public class Account implements Serializable {
         this.verifyInfo = verifyInfo;
     }
 
-    public AccountGroup getGroup() {
-        return group;
+    public AccountGroup getUserGroup() {
+        return userGroup;
     }
 
-    public void setGroup(AccountGroup group) {
-        this.group = group;
+    public void setUserGroup(AccountGroup userGroup) {
+        this.userGroup = userGroup;
     }
     
 }

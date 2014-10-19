@@ -17,7 +17,7 @@ public class SutraMarkHibernateImpl extends AbstractHibernateImpl<SutraMark> imp
     }
 
     @Override
-    protected void initalizeLazy(SutraMark entity) {
+    protected void initializeLazy(SutraMark entity) {
         Hibernate.initialize(entity.getNode());
     }
     

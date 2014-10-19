@@ -4,6 +4,7 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 
 /**
  *
@@ -14,7 +15,7 @@ import org.hibernate.SessionFactory;
 public abstract class AbstractHibernateImpl<T> {
 
     protected SessionFactory sessionFactory;
-    
+
     private final Class<T> entityClass;
 
     public AbstractHibernateImpl(Class<T> entityClass) {
@@ -42,22 +43,25 @@ public abstract class AbstractHibernateImpl<T> {
         final List<T> result = this.sessionFactory.getCurrentSession().createCriteria(entityClass).list();
         return result;
     }
-    
+
     public List<T> findRange(int first, int size) {
-        return this.sessionFactory.getCurrentSession().createCriteria(entityClass)
-                .setMaxResults(size)
+        List<T> result = this.sessionFactory.getCurrentSession().createCriteria(entityClass)
                 .setFirstResult(first)
+                .setMaxResults(size)
                 .list();
+        initializeListLazy(result);
+        return result;
     }
 
-    protected void initalizeListLazy(final List<T> list) throws HibernateException {
+    protected void initializeListLazy(final List<T> list) throws HibernateException {
         for (T entity : list) {
-            initalizeLazy(entity);
+            initializeLazy(entity);
         }
     }
 
-    protected void initalizeLazy(T entity) {
+    protected void initializeLazy(T entity) {
         // Do nothing because implement by child.
-    };
+    }
+;
 
 }

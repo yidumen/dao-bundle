@@ -30,7 +30,6 @@ public class VideoHibernateImpl extends AbstractHibernateImpl<Video> implements 
         this.sessionFactory = sessionFactory;
     }
 
-
     @Override
     public List<Video> find(final VideoStatus videoStatus) {
         final List<Video> result = this.sessionFactory.getCurrentSession().getNamedQuery("video.findByStatus")
@@ -138,7 +137,7 @@ public class VideoHibernateImpl extends AbstractHibernateImpl<Video> implements 
                     restrictionses.add(Restrictions.eq("tag.type", tag.getType()));
                 }
             }
-            criteria.add(Restrictions.or((Criterion[])restrictionses.toArray()));
+            criteria.add(Restrictions.or((Criterion[]) restrictionses.toArray()));
         }
         if (model.getDescrpition() != null) {
             criteria.add(Restrictions.like("descrpition", "%" + model.getDescrpition() + "%"));
@@ -147,7 +146,7 @@ public class VideoHibernateImpl extends AbstractHibernateImpl<Video> implements 
             criteria.add(Restrictions.like("descrpition", "%" + model.getNote() + "%"));
         }
         if (model.getGrade() != null) {
-            criteria.add(Restrictions.like("descrpition", "%" + model.getGrade()+ "%"));
+            criteria.add(Restrictions.like("descrpition", "%" + model.getGrade() + "%"));
         }
         if (model.getShootTime() != null) {
             criteria.add(Restrictions.between("shootTime", model.getShootTime(), model.getShootTime2()));
@@ -171,7 +170,7 @@ public class VideoHibernateImpl extends AbstractHibernateImpl<Video> implements 
         }
         if (model.getComment2() != null) {
             criteria.createAlias("comments", "comment")
-                    .add(Restrictions.like("comment.content", "%" + model.getComment2()+ "%"));
+                    .add(Restrictions.like("comment.content", "%" + model.getComment2() + "%"));
         }
         if (model.getOrderProperty() != null) {
             if (model.isDesc()) {
@@ -188,7 +187,7 @@ public class VideoHibernateImpl extends AbstractHibernateImpl<Video> implements 
     }
 
     @Override
-    protected void initalizeLazy(final Video video) throws HibernateException {
+    protected void initializeLazy(final Video video) throws HibernateException {
         Hibernate.initialize(video.getExtInfo());
         Hibernate.initialize(video.getTags());
         Hibernate.initialize(video.getComments());

@@ -1,6 +1,10 @@
 package com.yidumen.dao.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.yidumen.dao.constant.VideoStatus;
+import com.yidumen.dao.framework.jackson.DurationSerializer;
+import com.yidumen.dao.framework.jackson.VideoStatusSerializer;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -71,7 +75,7 @@ public class Video implements Serializable {
     /**
      * 不同清晰度的视频信息
      */
-    @OneToMany(mappedBy = "video", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "video", cascade = CascadeType.ALL)
     @OrderBy(value = "resolution")
     private List<VideoInfo> extInfo;
 
@@ -84,6 +88,7 @@ public class Video implements Serializable {
     private String note;
     @Column(length = 5)
     private String grade;
+    @JsonSerialize(using = DurationSerializer.class)
     @Basic(optional = false)
     private Long duration;
 
@@ -96,6 +101,7 @@ public class Video implements Serializable {
     /**
      * 视频状态，可取的值：发布、审核、存档
      */
+    @JsonSerialize(using = VideoStatusSerializer.class)
     @Enumerated(EnumType.ORDINAL)
     @Basic(optional = false)
     private VideoStatus status;
@@ -106,6 +112,7 @@ public class Video implements Serializable {
 
     private Date pubDate;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "video")
     private List<Comment> comments;
 

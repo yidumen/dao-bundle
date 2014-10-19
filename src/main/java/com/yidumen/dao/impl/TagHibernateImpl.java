@@ -18,7 +18,7 @@ import org.hibernate.criterion.Restrictions;
 @SuppressWarnings("unchecked")
 public class TagHibernateImpl extends AbstractHibernateImpl<Tag> implements TagDAO {
 
-    public TagHibernateImpl(SessionFactory sessionFactory, Class<Tag> entityClass) {
+    public TagHibernateImpl(SessionFactory sessionFactory) {
         super(Tag.class);
         this.sessionFactory = sessionFactory;
     }
@@ -62,7 +62,7 @@ public class TagHibernateImpl extends AbstractHibernateImpl<Tag> implements TagD
     }
 
     @Override
-    protected void initalizeLazy(Tag entity) {
+    protected void initializeLazy(Tag entity) {
         Hibernate.initialize(entity.getVideos());
         Hibernate.initialize(entity.getSutras());
     }

@@ -60,7 +60,7 @@ public class SutraHibernateImpl extends AbstractHibernateImpl<Sutra> implements 
     }
 
     @Override
-    protected void initalizeLazy(Sutra entity) {
+    protected void initializeLazy(Sutra entity) {
         Hibernate.initialize(entity.getTags());
         Hibernate.initialize(entity.getContent());
     }
