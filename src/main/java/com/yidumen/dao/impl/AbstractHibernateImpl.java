@@ -1,10 +1,9 @@
 package com.yidumen.dao.impl;
 
 import java.util.List;
-import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 
 /**
  *
@@ -36,12 +35,18 @@ public abstract class AbstractHibernateImpl<T> {
 
     public T find(Long id) {
         final T result = (T) this.sessionFactory.getCurrentSession().load(entityClass, id);
+        initializeLazy(result);
         return result;
     }
 
     public List<T> findAll() {
         final List<T> result = this.sessionFactory.getCurrentSession().createCriteria(entityClass).list();
         return result;
+    }
+    
+    public long count() {
+        return (long) this.sessionFactory.getCurrentSession().createCriteria(entityClass)
+                .setProjection(Projections.rowCount()).uniqueResult();
     }
 
     public List<T> findRange(int first, int size) {

@@ -36,7 +36,7 @@ public class VideoQueryModel extends Video {
     //范围查询
     private long sort2;
     private String file2;
-    private String duration2;
+    private long duration2;
     private Date shootTime2;
     private Date pubDate2;
     private List<VideoInfo> extInfo2;
@@ -47,6 +47,7 @@ public class VideoQueryModel extends Video {
     private String comment2;
 
     //附加条件
+    private int first;
     private long limit;
     private String orderProperty;
     private boolean desc;
@@ -115,13 +116,14 @@ public class VideoQueryModel extends Video {
         this.sort2 = sort2;
     }
 
-    public String getDuration2() {
+    public long getDuration2() {
         return duration2;
     }
 
-    public void setDuration2(String duration2) {
+    public void setDuration2(long duration2) {
         this.duration2 = duration2;
     }
+
 
     public Date getShootTime2() {
         return shootTime2;
@@ -161,6 +163,14 @@ public class VideoQueryModel extends Video {
 
     public void setStatus2(List<VideoStatus> status2) {
         this.status2 = status2;
+    }
+
+    public int getFirst() {
+        return first;
+    }
+
+    public void setFirst(int first) {
+        this.first = first;
     }
 
 }

@@ -1,7 +1,11 @@
 package com.yidumen.dao.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.yidumen.dao.constant.VideoResolution;
+import com.yidumen.dao.framework.jackson.VideoResolutionDeserializer;
+import com.yidumen.dao.framework.jackson.VideoResolutionSerializer;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Entity;
@@ -27,6 +31,8 @@ public class VideoInfo implements Serializable {
     @ManyToOne
     private Video video;
 
+    @JsonSerialize(using = VideoResolutionSerializer.class)
+    @JsonDeserialize(using = VideoResolutionDeserializer.class)
     @Basic(optional = false)
     @Enumerated(EnumType.ORDINAL)
     private VideoResolution resolution;

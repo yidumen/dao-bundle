@@ -31,5 +31,7 @@ public interface VideoDAO extends BaseDAO<Video> {
     List<Video> getNewVideos(int limit);
 
     List<Video> find(VideoQueryModel model);
+
+    Long count(VideoQueryModel model);
     
 }

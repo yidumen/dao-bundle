@@ -19,4 +19,12 @@ public enum VideoStatus {
         return descript;
     }
     
+    public static VideoStatus getByDescript(String descript) {
+        for (VideoStatus status : VideoStatus.values()) {
+            if (descript.equals(status.getDescript())) {
+                return status;
+            }
+        }
+        return null;
+    }
 }

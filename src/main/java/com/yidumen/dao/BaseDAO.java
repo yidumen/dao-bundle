@@ -16,6 +16,8 @@ public interface BaseDAO<T> {
     T find(Long id);
 
     List<T> findAll();
+    
+    long count();
 
     void remove(T entity);
     

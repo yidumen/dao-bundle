@@ -1,9 +1,14 @@
 package com.yidumen.dao.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.yidumen.dao.constant.VideoStatus;
+import com.yidumen.dao.framework.jackson.DateDeserializer;
+import com.yidumen.dao.framework.jackson.DateSerializer;
+import com.yidumen.dao.framework.jackson.DurationDeserializer;
 import com.yidumen.dao.framework.jackson.DurationSerializer;
+import com.yidumen.dao.framework.jackson.VideoStatusDeSerializer;
 import com.yidumen.dao.framework.jackson.VideoStatusSerializer;
 import java.io.Serializable;
 import java.util.Date;
@@ -14,7 +19,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -89,6 +93,7 @@ public class Video implements Serializable {
     @Column(length = 5)
     private String grade;
     @JsonSerialize(using = DurationSerializer.class)
+    @JsonDeserialize(using = DurationDeserializer.class)
     @Basic(optional = false)
     private Long duration;
 
@@ -102,6 +107,7 @@ public class Video implements Serializable {
      * 视频状态，可取的值：发布、审核、存档
      */
     @JsonSerialize(using = VideoStatusSerializer.class)
+    @JsonDeserialize(using = VideoStatusDeSerializer.class)
     @Enumerated(EnumType.ORDINAL)
     @Basic(optional = false)
     private VideoStatus status;
@@ -110,6 +116,8 @@ public class Video implements Serializable {
 
     private int recommend;
 
+    @JsonSerialize(using = DateSerializer.class)
+    @JsonDeserialize(using = DateDeserializer.class)
     private Date pubDate;
 
     @JsonIgnore

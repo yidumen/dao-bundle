@@ -16,6 +16,8 @@ import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projection;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 
 /**
@@ -104,17 +106,38 @@ public class VideoHibernateImpl extends AbstractHibernateImpl<Video> implements 
 
     @Override
     public List<Video> find(VideoQueryModel model) {
+        final Criteria criteria = createCriteria(model);
+        if (model.getFirst() > 0) {
+            criteria.setFirstResult(model.getFirst());
+        }
+
+        if (model.getLimit() > 0) {
+            criteria.setMaxResults(new Long(model.getLimit()).intValue());
+        }
+        final List<Video> result = criteria.list();
+        initializeListLazy(result);
+        return result;
+    }
+
+    @Override
+    public Long count(VideoQueryModel model) {
+        final Criteria criteria = createCriteria(model);
+        criteria.setProjection(Projections.rowCount());
+        return (Long) criteria.uniqueResult();
+    }
+
+    private Criteria createCriteria(VideoQueryModel model) throws HibernateException {
         final Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Video.class);
         if (model.getSort2() > 0) {
             criteria.add(Restrictions.between("sort", model.getSort(), model.getSort2()));
         }
-        if (model.getTitle() != null) {
+        if (model.getTitle() != null && !model.getTitle().isEmpty()) {
             criteria.add(Restrictions.like("title", "%" + model.getTitle() + "%"));
         }
-        if (model.getFile() != null) {
+        if (model.getFile() != null && !model.getFile().isEmpty()) {
             criteria.add(Restrictions.between("file", model.getFile(), model.getFile2()));
         }
-        if (model.getExtInfo() != null) {
+        if (model.getExtInfo() != null && !model.getExtInfo().isEmpty()) {
             criteria.createAlias("extInfo", "ext");
             for (VideoInfo info : model.getExtInfo()) {
                 for (VideoInfo info2 : model.getExtInfo2()) {
@@ -126,7 +149,7 @@ public class VideoHibernateImpl extends AbstractHibernateImpl<Video> implements 
                 }
             }
         }
-        if (model.getTags() != null) {
+        if (model.getTags() != null && !model.getTags().isEmpty()) {
             criteria.createAlias("tags", "tag");
             List<Criterion> restrictionses = new ArrayList<>();
             for (Tag tag : model.getTags()) {
@@ -139,13 +162,13 @@ public class VideoHibernateImpl extends AbstractHibernateImpl<Video> implements 
             }
             criteria.add(Restrictions.or((Criterion[]) restrictionses.toArray()));
         }
-        if (model.getDescrpition() != null) {
+        if (model.getDescrpition() != null && !model.getDescrpition().isEmpty()) {
             criteria.add(Restrictions.like("descrpition", "%" + model.getDescrpition() + "%"));
         }
-        if (model.getNote() != null) {
+        if (model.getNote() != null && !model.getNote().isEmpty()) {
             criteria.add(Restrictions.like("descrpition", "%" + model.getNote() + "%"));
         }
-        if (model.getGrade() != null) {
+        if (model.getGrade() != null && !model.getGrade().isEmpty()) {
             criteria.add(Restrictions.like("descrpition", "%" + model.getGrade() + "%"));
         }
         if (model.getShootTime() != null) {
@@ -168,22 +191,18 @@ public class VideoHibernateImpl extends AbstractHibernateImpl<Video> implements 
         if (model.getPubDate() != null) {
             criteria.add(Restrictions.between("pubDate", model.getPubDate(), model.getPubDate2()));
         }
-        if (model.getComment2() != null) {
+        if (model.getComment2() != null && !model.getComment2().isEmpty()) {
             criteria.createAlias("comments", "comment")
                     .add(Restrictions.like("comment.content", "%" + model.getComment2() + "%"));
         }
-        if (model.getOrderProperty() != null) {
+        if (model.getOrderProperty() != null && !model.getOrderProperty().isEmpty()) {
             if (model.isDesc()) {
                 criteria.addOrder(Order.desc(model.getOrderProperty()));
             } else {
                 criteria.addOrder(Order.asc(model.getOrderProperty()));
             }
         }
-        if (model.getLimit() > 0) {
-            criteria.setMaxResults(new Long(model.getLimit()).intValue());
-        }
-        final List<Video> result = criteria.list();
-        return result;
+        return criteria;
     }
 
     @Override

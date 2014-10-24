@@ -19,7 +19,7 @@ public enum VideoResolution {
         this.descript = descript;
     }
     
-    public static VideoResolution getResolutionByDescript(String descript) {
+    public static VideoResolution getByDescript(String descript) {
         for (VideoResolution vr : VideoResolution.values()) {
             if (vr.getDescript().equals(descript)) {
                 return vr;
