@@ -4,6 +4,7 @@ import com.yidumen.dao.constant.VideoStatus;
 import com.yidumen.dao.entity.Video;
 import com.yidumen.dao.entity.VideoInfo;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,6 +53,13 @@ public class VideoQueryModel extends Video {
     private String orderProperty;
     private boolean desc;
 
+    public void addStatus(VideoStatus status) {
+        if (this.status2 == null) {
+            this.status2 = new ArrayList<>();
+        }
+        this.status2.add(status);
+    }
+    
     public String getOrderProperty() {
         return orderProperty;
     }
