@@ -42,7 +42,6 @@ public class VideoQueryModel extends Video {
     private Date pubDate2;
     private List<VideoInfo> extInfo2;
     private List<VideoStatus> status2;
-    private boolean chatroom2;
     private boolean recommendVideo;
     private int recommend2;
     private String comment2;
@@ -106,14 +105,6 @@ public class VideoQueryModel extends Video {
 
     public void setFile2(String file2) {
         this.file2 = file2;
-    }
-
-    public boolean isChatroom2() {
-        return chatroom2;
-    }
-
-    public void setChatroom2(boolean chatroom2) {
-        this.chatroom2 = chatroom2;
     }
 
     public long getSort2() {

@@ -181,9 +181,6 @@ public class VideoHibernateImpl extends AbstractHibernateImpl<Video> implements 
             }
             criteria.add(Restrictions.or(restrictionses));
         }
-        if (model.isChatroom2()) {
-            criteria.add(Restrictions.eq("chatroomVideo", model.isChatroomVideo()));
-        }
         if (model.isRecommendVideo()) {
             criteria.add(Restrictions.between("recommend", model.getRecommend(), model.getRecommend2()));
         }

@@ -112,8 +112,6 @@ public class Video implements Serializable {
     @Basic(optional = false)
     private VideoStatus status;
 
-    private boolean chatroomVideo;
-
     private int recommend;
 
     @JsonSerialize(using = DateSerializer.class)
@@ -123,14 +121,6 @@ public class Video implements Serializable {
     @JsonIgnore
     @OneToMany(mappedBy = "video")
     private List<Comment> comments;
-
-    public boolean isChatroomVideo() {
-        return chatroomVideo;
-    }
-
-    public void setChatroomVideo(boolean chatroomVideo) {
-        this.chatroomVideo = chatroomVideo;
-    }
 
     public Long getId() {
         return id;

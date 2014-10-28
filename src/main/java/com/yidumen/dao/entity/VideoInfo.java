@@ -8,6 +8,7 @@ import com.yidumen.dao.framework.jackson.VideoResolutionDeserializer;
 import com.yidumen.dao.framework.jackson.VideoResolutionSerializer;
 import java.io.Serializable;
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -42,7 +43,8 @@ public class VideoInfo implements Serializable {
     private int height;
 
     @Basic(optional = false)
-    private int fileSize;
+    @Column(length = 10)
+    private String fileSize;
 
     public Long getId() {
         return id;
@@ -84,11 +86,11 @@ public class VideoInfo implements Serializable {
         this.height = height;
     }
 
-    public int getFileSize() {
+    public String getFileSize() {
         return fileSize;
     }
 
-    public void setFileSize(int fileSize) {
+    public void setFileSize(String fileSize) {
         this.fileSize = fileSize;
     }
 
