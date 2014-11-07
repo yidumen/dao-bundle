@@ -10,7 +10,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -91,7 +90,6 @@ public class Account implements Serializable {
     @ManyToMany(mappedBy = "agreedAccount")
     private List<Comment> agreed;
 
-    @Basic(fetch = FetchType.LAZY)
     @OneToOne(cascade = CascadeType.ALL)
     private VerifyInfo verifyInfo;
     @Enumerated(EnumType.ORDINAL)

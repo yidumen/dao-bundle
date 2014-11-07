@@ -41,6 +41,7 @@ public abstract class AbstractHibernateImpl<T> {
 
     public List<T> findAll() {
         final List<T> result = this.sessionFactory.getCurrentSession().createCriteria(entityClass).list();
+        initializeListLazy(result);
         return result;
     }
     

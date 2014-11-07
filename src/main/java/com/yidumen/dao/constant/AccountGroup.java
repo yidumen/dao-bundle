@@ -6,5 +6,5 @@ package com.yidumen.dao.constant;
  */
 public enum AccountGroup {
 
-    USER, ADMIN, STAFF
+    ADMIN, STAFF, USER
 }
