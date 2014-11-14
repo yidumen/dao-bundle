@@ -159,7 +159,8 @@ public class VideoHibernateImpl extends AbstractHibernateImpl<Video> implements 
                     restrictionses.add(Restrictions.eq("tag.type", tag.getType()));
                 }
             }
-            criteria.add(Restrictions.or((Criterion[]) restrictionses.toArray()));
+            Criterion[] criterions = new Criterion[restrictionses.size()];
+            criteria.add(Restrictions.or(restrictionses.toArray(criterions)));
         }
         if (model.getDescrpition() != null && !model.getDescrpition().isEmpty()) {
             criteria.add(Restrictions.like("descrpition", "%" + model.getDescrpition() + "%"));

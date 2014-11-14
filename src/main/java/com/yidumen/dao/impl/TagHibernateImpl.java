@@ -28,6 +28,7 @@ public class TagHibernateImpl extends AbstractHibernateImpl<Tag> implements TagD
         final List<Tag> result = this.sessionFactory.getCurrentSession().getNamedQuery("Tag.OrderByHints")
                 .setMaxResults(limit)
                 .list();
+        initializeListLazy(result);
         return result;
     }
 
@@ -41,6 +42,7 @@ public class TagHibernateImpl extends AbstractHibernateImpl<Tag> implements TagD
             criteria.setMaxResults(limit);
         }
         final List<Tag> result = criteria.list();
+        initializeListLazy(result);
         return result;
     }
 
@@ -49,16 +51,19 @@ public class TagHibernateImpl extends AbstractHibernateImpl<Tag> implements TagD
         final Tag result = (Tag) this.sessionFactory.getCurrentSession().getNamedQuery("Tag.findByname")
                 .setString("tagname", tagName)
                 .uniqueResult();
+        initializeLazy(result);
         return result;
     }
 
     @Override
     public List<Tag> find(Tag tag) {
-        return this.sessionFactory.getCurrentSession()
+        final List<Tag> result = this.sessionFactory.getCurrentSession()
                 .createCriteria(Tag.class)
                 .add(Example.create(tag)
                         .excludeProperty("hits"))
                 .list();
+        initializeListLazy(result);
+        return result;
     }
 
     @Override

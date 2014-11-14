@@ -30,17 +30,21 @@ public class SutraHibernateImpl extends AbstractHibernateImpl<Sutra> implements 
 
     @Override
     public Sutra findByLeftvalue(final long leftValue) {
-        final Sutra result = (Sutra) this.sessionFactory.getCurrentSession().getNamedQuery("Sutra.findByLeftValue")
-                .setLong(1, leftValue)
-                .uniqueResult();
+        final Sutra result = (Sutra) this.sessionFactory.getCurrentSession().createCriteria(Sutra.class)
+                .add(Restrictions.eq("leftValue", leftValue)).uniqueResult();
+        if (null != result) {
+            initializeLazy(result);
+        }
         return result;
     }
 
     @Override
     public Sutra findByRightvalue(final long rightValue) {
-        final Sutra result = (Sutra) this.sessionFactory.getCurrentSession().getNamedQuery("Sutra.findByLeftValue")
-                .setLong(1, rightValue)
-                .uniqueResult();
+        final Sutra result = (Sutra) this.sessionFactory.getCurrentSession().createCriteria(Sutra.class)
+                .add(Restrictions.eq("rightValue", rightValue)).uniqueResult();
+        if (null != result) {
+            initializeLazy(result);
+        }
         return result;
     }
 
