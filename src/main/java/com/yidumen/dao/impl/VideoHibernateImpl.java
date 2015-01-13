@@ -199,7 +199,7 @@ public class VideoHibernateImpl extends AbstractHibernateImpl<Video> implements 
         if (model.getLimit() > 0) {
             criteria.setMaxResults(new Long(model.getLimit()).intValue());
         }
-        return criteria.setCacheable(true);
+        return criteria;
     }
 
     @Override

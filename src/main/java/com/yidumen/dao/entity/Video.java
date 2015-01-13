@@ -36,7 +36,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
  * @author 蔡迪旻yidumen.com>
  */
 @Entity
-@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
+//@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 @NamedQueries({
     @NamedQuery(name = "video.findByFile",
                 query = "SELECT v FROM Video v WHERE v.file = :file"),
@@ -84,13 +84,13 @@ public class Video implements Serializable {
      */
     @OneToMany(mappedBy = "video", cascade = CascadeType.ALL)
     @OrderBy(value = "resolution")
-    @Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
+//    @Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
     private List<VideoInfo> extInfo;
 
     @ManyToMany(mappedBy = "videos", cascade = {CascadeType.MERGE,
                                                 CascadeType.PERSIST,
                                                 CascadeType.REFRESH})
-    @Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
+//    @Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
     private List<Tag> tags;
 
     private String descrpition;
@@ -125,7 +125,7 @@ public class Video implements Serializable {
 
     @JsonIgnore
     @OneToMany(mappedBy = "video")
-    @Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
+//    @Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
     private List<Comment> comments;
 
     public Long getId() {
