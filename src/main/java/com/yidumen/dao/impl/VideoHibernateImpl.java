@@ -199,7 +199,7 @@ public class VideoHibernateImpl extends AbstractHibernateImpl<Video> implements 
                 criteria.addOrder(Order.asc(model.getOrderProperty()));
             }
         }
-        return criteria;
+        return criteria.setCacheable(true);
     }
 
     @Override
