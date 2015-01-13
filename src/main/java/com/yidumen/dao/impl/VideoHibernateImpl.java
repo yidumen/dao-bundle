@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
@@ -106,15 +107,7 @@ public class VideoHibernateImpl extends AbstractHibernateImpl<Video> implements 
     @Override
     public List<Video> find(VideoQueryModel model) {
         final Criteria criteria = createCriteria(model);
-        if (model.getFirst() > 0) {
-            criteria.setFirstResult(model.getFirst());
-        }
-
-        if (model.getLimit() > 0) {
-            criteria.setMaxResults(new Long(model.getLimit()).intValue());
-        }
         final List<Video> result = criteria.list();
-        initializeListLazy(result);
         return result;
     }
 
@@ -198,6 +191,13 @@ public class VideoHibernateImpl extends AbstractHibernateImpl<Video> implements 
             } else {
                 criteria.addOrder(Order.asc(model.getOrderProperty()));
             }
+        }
+        if (model.getFirst() > 0) {
+            criteria.setFirstResult(model.getFirst());
+        }
+
+        if (model.getLimit() > 0) {
+            criteria.setMaxResults(new Long(model.getLimit()).intValue());
         }
         return criteria.setCacheable(true);
     }
