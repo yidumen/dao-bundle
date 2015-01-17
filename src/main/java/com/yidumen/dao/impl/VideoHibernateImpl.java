@@ -108,6 +108,9 @@ public class VideoHibernateImpl extends AbstractHibernateImpl<Video> implements 
     public List<Video> find(VideoQueryModel model) {
         final Criteria criteria = createCriteria(model);
         final List<Video> result = criteria.list();
+        if (model.isAllEager()) {
+            initializeListLazy(result);
+        }
         return result;
     }
 
@@ -199,6 +202,7 @@ public class VideoHibernateImpl extends AbstractHibernateImpl<Video> implements 
         if (model.getLimit() > 0) {
             criteria.setMaxResults(new Long(model.getLimit()).intValue());
         }
+        
         return criteria;
     }
 

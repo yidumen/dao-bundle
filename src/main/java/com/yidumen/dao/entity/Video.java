@@ -13,6 +13,8 @@ import com.yidumen.dao.framework.jackson.VideoStatusSerializer;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -28,8 +30,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  *
@@ -85,13 +85,13 @@ public class Video implements Serializable {
     @OneToMany(mappedBy = "video", cascade = CascadeType.ALL)
     @OrderBy(value = "resolution")
 //    @Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
-    private List<VideoInfo> extInfo;
+    private Set<VideoInfo> extInfo;
 
     @ManyToMany(mappedBy = "videos", cascade = {CascadeType.MERGE,
                                                 CascadeType.PERSIST,
                                                 CascadeType.REFRESH})
 //    @Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
-    private List<Tag> tags;
+    private Set<Tag> tags;
 
     private String descrpition;
     private String note;
@@ -189,13 +189,22 @@ public class Video implements Serializable {
         this.shootTime = shootTime;
     }
 
-    public List<VideoInfo> getExtInfo() {
+    public Set<VideoInfo> getExtInfo() {
         return extInfo;
     }
 
-    public void setExtInfo(final List<VideoInfo> extInfo) {
+    public void setExtInfo(Set<VideoInfo> extInfo) {
         this.extInfo = extInfo;
     }
+
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
+    }
+
 
     /**
      * 视频发布日期.<br>
@@ -211,14 +220,6 @@ public class Video implements Serializable {
 
     public void setPubDate(Date pubDate) {
         this.pubDate = pubDate;
-    }
-
-    public List<Tag> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<Tag> tags) {
-        this.tags = tags;
     }
 
     public String getDescrpition() {
@@ -259,6 +260,33 @@ public class Video implements Serializable {
 
     public void setGrade(String grade) {
         this.grade = grade;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 47 * hash + Objects.hashCode(this.id);
+        hash = 47 * hash + Objects.hashCode(this.title);
+        hash = 47 * hash + Objects.hashCode(this.file);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Video other = (Video) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.file, other.file)) {
+            return false;
+        }
+        return true;
     }
 
 }
