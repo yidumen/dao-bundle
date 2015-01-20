@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.hibernate.Criteria;
-import org.hibernate.FetchMode;
 import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
@@ -146,17 +145,14 @@ public class VideoHibernateImpl extends AbstractHibernateImpl<Video> implements 
         }
         if (model.getTags() != null && !model.getTags().isEmpty()) {
             criteria.createAlias("tags", "tag");
-            List<Criterion> restrictionses = new ArrayList<>();
             for (Tag tag : model.getTags()) {
                 if (tag.getTagname() != null) {
-                    restrictionses.add(Restrictions.eq("tag.tagname", tag.getTagname()));
+                    criteria.add(Restrictions.eq("tag.tagname", tag.getTagname()));
                 }
                 if (tag.getType() != null) {
-                    restrictionses.add(Restrictions.eq("tag.type", tag.getType()));
+                    criteria.add(Restrictions.eq("tag.type", tag.getType()));
                 }
             }
-            Criterion[] criterions = new Criterion[restrictionses.size()];
-            criteria.add(Restrictions.or(restrictionses.toArray(criterions)));
         }
         if (model.getDescrpition() != null && !model.getDescrpition().isEmpty()) {
             criteria.add(Restrictions.like("descrpition", "%" + model.getDescrpition() + "%"));
