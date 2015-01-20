@@ -2,6 +2,7 @@ package com.yidumen.dao.impl;
 
 import java.util.List;
 import org.hibernate.HibernateException;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 
@@ -26,7 +27,9 @@ public abstract class AbstractHibernateImpl<T> {
     }
 
     public void edit(T entity) {
-        this.sessionFactory.getCurrentSession().saveOrUpdate(entity);
+        final Session currentSession = this.sessionFactory.getCurrentSession();
+        currentSession.clear();
+        currentSession.saveOrUpdate(entity);
     }
 
     public void remove(T entity) {

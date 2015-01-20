@@ -106,15 +106,10 @@ public class VideoHibernateImpl extends AbstractHibernateImpl<Video> implements 
     @Override
     public List<Video> find(VideoQueryModel model) {
         final Criteria criteria = createCriteria(model);
-        if (model.getFirst() > 0) {
-            criteria.setFirstResult(model.getFirst());
-        }
-
-        if (model.getLimit() > 0) {
-            criteria.setMaxResults(new Long(model.getLimit()).intValue());
-        }
         final List<Video> result = criteria.list();
-        initializeListLazy(result);
+        if (model.isAllEager()) {
+            initializeListLazy(result);
+        }
         return result;
     }
 
@@ -150,17 +145,14 @@ public class VideoHibernateImpl extends AbstractHibernateImpl<Video> implements 
         }
         if (model.getTags() != null && !model.getTags().isEmpty()) {
             criteria.createAlias("tags", "tag");
-            List<Criterion> restrictionses = new ArrayList<>();
             for (Tag tag : model.getTags()) {
                 if (tag.getTagname() != null) {
-                    restrictionses.add(Restrictions.eq("tag.tagname", tag.getTagname()));
+                    criteria.add(Restrictions.eq("tag.tagname", tag.getTagname()));
                 }
                 if (tag.getType() != null) {
-                    restrictionses.add(Restrictions.eq("tag.type", tag.getType()));
+                    criteria.add(Restrictions.eq("tag.type", tag.getType()));
                 }
             }
-            Criterion[] criterions = new Criterion[restrictionses.size()];
-            criteria.add(Restrictions.or(restrictionses.toArray(criterions)));
         }
         if (model.getDescrpition() != null && !model.getDescrpition().isEmpty()) {
             criteria.add(Restrictions.like("descrpition", "%" + model.getDescrpition() + "%"));
@@ -199,6 +191,14 @@ public class VideoHibernateImpl extends AbstractHibernateImpl<Video> implements 
                 criteria.addOrder(Order.asc(model.getOrderProperty()));
             }
         }
+        if (model.getFirst() > 0) {
+            criteria.setFirstResult(model.getFirst());
+        }
+
+        if (model.getLimit() > 0) {
+            criteria.setMaxResults(new Long(model.getLimit()).intValue());
+        }
+        
         return criteria;
     }
 

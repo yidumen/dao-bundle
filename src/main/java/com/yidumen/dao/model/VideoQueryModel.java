@@ -51,6 +51,7 @@ public class VideoQueryModel extends Video {
     private long limit;
     private String orderProperty;
     private boolean desc;
+    private boolean allEager;
 
     public void addStatus(VideoStatus status) {
         if (this.status2 == null) {
@@ -170,6 +171,14 @@ public class VideoQueryModel extends Video {
 
     public void setFirst(int first) {
         this.first = first;
+    }
+
+    public boolean isAllEager() {
+        return allEager;
+    }
+
+    public void setAllEager(boolean allEager) {
+        this.allEager = allEager;
     }
 
 }

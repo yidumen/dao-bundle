@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/rl8k07vaxq6b1663</property>
+    <property name="hibernate.connection.username">yidumen</property>
+    <property name="hibernate.connection.password">yidumen</property>
+    <property name="hibernate.show_sql">false</property>
+    <property name="hibernate.current_session_context_class">thread</property>
+    <property name="hibernate.cache.use_query_cache">true</property>
+    <property name="hibernate.cache.use_second_level_cache">true</property>
+    <property name="hibernate.cache.region.factory_class">com.yidumen.dao.framework.hibernate.cache.ace.AceRegionFactory</property>
+    <property name="javax.persistence.sharedCache.mode">DISABLE_SELECTIVE</property>
+    <property name="hibernate.cache.use_minimal_puts">true</property>
+    <mapping class="com.yidumen.dao.entity.Video"/>
+    <mapping class="com.yidumen.dao.entity.VideoInfo"/>
+    <mapping class="com.yidumen.dao.entity.AccessInfo"/>
+    <mapping class="com.yidumen.dao.entity.Account"/>
+    <mapping class="com.yidumen.dao.entity.Comment"/>
+    <mapping class="com.yidumen.dao.entity.Sutra"/>
+    <mapping class="com.yidumen.dao.entity.SutraMark"/>
+    <mapping class="com.yidumen.dao.entity.Tag"/>
+    <mapping class="com.yidumen.dao.entity.UserMessage"/>
+    <mapping class="com.yidumen.dao.entity.VerifyInfo"/>
+    <mapping class="com.yidumen.dao.entity.Goods"/>
+  </session-factory>
+</hibernate-configuration>

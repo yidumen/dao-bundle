@@ -3,6 +3,7 @@ package com.yidumen.dao.entity;
 import com.yidumen.dao.constant.TagType;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -38,10 +39,10 @@ public class Tag implements Serializable {
     private int hits;
 
     @ManyToMany
-    private List<Video> videos;
+    private Set<Video> videos;
 
     @ManyToMany
-    private List<Sutra> sutras;
+    private Set<Sutra> sutras;
     
     @Enumerated(EnumType.ORDINAL)
     private TagType type;
@@ -70,21 +71,22 @@ public class Tag implements Serializable {
         this.hits = hits;
     }
 
-    public List<Video> getVideos() {
+    public Set<Video> getVideos() {
         return videos;
     }
 
-    public void setVideos(List<Video> videos) {
+    public void setVideos(Set<Video> videos) {
         this.videos = videos;
     }
 
-    public List<Sutra> getSutras() {
+    public Set<Sutra> getSutras() {
         return sutras;
     }
 
-    public void setSutras(List<Sutra> sutras) {
+    public void setSutras(Set<Sutra> sutras) {
         this.sutras = sutras;
     }
+
 
     public TagType getType() {
         return type;
